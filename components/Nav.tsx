@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { Home, Users, Receipt, FileText, AlertTriangle, Menu, X, UserCheck, Boxes } from 'lucide-react'
+import { Home, Users, Receipt, FileText, AlertTriangle, Menu, X, Boxes } from 'lucide-react'
 import { useState } from 'react'
 
 const items = [
@@ -35,11 +35,6 @@ const items = [
     href: '/outstanding' as const, 
     label: 'Outstanding',
     icon: AlertTriangle
-  },
-  { 
-    href: '/staff' as const, 
-    label: 'Staff Log',
-    icon: UserCheck
   },
 ]
 
