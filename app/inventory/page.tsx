@@ -371,7 +371,7 @@ export default function InventoryPage() {
                             <Badge variant="destructive" className="mt-1">Out of Stock</Badge>
                           )}
                           {isLowStock && (
-                            <Badge variant="outline" className="mt-1 border-yellow-400 text-yellow-700 bg-yellow-50">Low Stock</Badge>
+                            <Badge variant="secondary" className="mt-1">Low Stock</Badge>
                           )}
                         </div>
                       </div>
@@ -513,19 +513,19 @@ export default function InventoryPage() {
 
                 <div className="flex flex-wrap gap-2">
                   {hasOutOfStock && (
-                    <Badge variant="destructive" className="flex items-center gap-1 text-xs">
+                    <Badge variant="destructive" className="flex items-center gap-1">
                       <AlertTriangle className="w-3 h-3" />
                       OUT OF STOCK: {stats.outOfStockCount}
                     </Badge>
                   )}
                   {hasLowStock && (
-                    <Badge variant="outline" className="flex items-center gap-1 text-xs border-yellow-400 text-yellow-700 bg-yellow-50">
+                    <Badge variant="secondary" className="flex items-center gap-1">
                       <AlertTriangle className="w-3 h-3" />
                       LOW STOCK: {stats.lowStockCount}
                     </Badge>
                   )}
                   {!hasLowStock && !hasOutOfStock && (
-                    <Badge variant="outline" className="text-xs border-green-400 text-green-700 bg-green-50">
+                    <Badge variant="outline" className="flex items-center gap-1">
                       Stock Healthy
                     </Badge>
                   )}
