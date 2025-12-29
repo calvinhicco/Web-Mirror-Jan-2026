@@ -7,32 +7,32 @@ import { useState } from 'react'
 
 const items = [
   { 
-    href: '/' as const, 
+    href: '/', 
     label: 'Dashboard',
     icon: Home 
   },
   { 
-    href: '/students' as const, 
+    href: '/students', 
     label: 'Students',
     icon: Users
   },
   { 
-    href: '/inventory' as const, 
+    href: '/inventory', 
     label: 'Inventory',
     icon: Boxes
   },
   { 
-    href: '/expenses' as const, 
+    href: '/expenses', 
     label: 'Expenses',
     icon: Receipt
   },
   { 
-    href: '/extrabilling' as const, 
+    href: '/extrabilling', 
     label: 'Extra Billing',
     icon: FileText
   },
   { 
-    href: '/outstanding' as const, 
+    href: '/outstanding', 
     label: 'Outstanding',
     icon: AlertTriangle
   },
