@@ -1,15 +1,13 @@
 import './globals.css'
-import type { ReactNode } from 'react'
-import type { Metadata } from 'next'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import Nav from '@/components/Nav'
 
-export const metadata: Metadata = {
+export const metadata = {
   title: 'My Students - Sunrise Group Of Schools Real-Time update',
   description: 'Sunrise Group Of Schools Real-Time update — synced from the desktop app. Editing is disabled.',
 }
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({ children }: { children: any }) {
   return (
     <html lang="en">
       <body className="font-sans">
