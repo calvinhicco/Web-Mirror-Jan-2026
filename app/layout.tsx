@@ -3,8 +3,8 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import Nav from '@/components/Nav'
 
 export const metadata = {
-  title: 'My Students - Sunrise Group Of Schools Real-Time update',
-  description: 'Sunrise Group Of Schools Real-Time update — synced from the desktop app. Editing is disabled.',
+  title: 'My Students - Grace Junior Schools Real-Time update',
+  description: 'Grace Junior Schools Real-Time update — synced from the desktop app. Editing is disabled.',
 }
 
 export default function RootLayout({ children }: { children: any }) {
@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: any }) {
       <body className="font-sans">
         <TooltipProvider>
           <div className="w-full bg-yellow-50 border-b border-yellow-200 text-yellow-900 text-sm py-2 text-center">
-            Sunrise Group Of Schools Real-Time update — synced from the desktop app. Editing is disabled.
+            Grace Junior Schools Real-Time update — synced from the desktop app. Editing is disabled.
           </div>
           <Nav />
           <main className="min-h-screen">
