@@ -88,10 +88,10 @@ export function DashboardTotals() {
           outstanding: totalOutstanding
         })
         
-        setTotalStudents(totalStudents)
-        setTotalExpenses(totalExpenses)
-        setTotalExtraBilling(totalExtraBilling)
-        setTotalOutstanding(totalOutstanding)
+        setTotalStudents(Number(totalStudents) || 0)
+        setTotalExpenses(Number(totalExpenses) || 0)
+        setTotalExtraBilling(Number(totalExtraBilling) || 0)
+        setTotalOutstanding(Number(totalOutstanding) || 0)
       } catch (error) {
         console.error('❌ Error loading dashboard data:', error)
       } finally {
@@ -103,7 +103,7 @@ export function DashboardTotals() {
     loadData()
 
     // Subscribe to real-time updates with throttling to prevent excessive updates
-    let studentsUpdateTimeout: NodeJS.Timeout | null = null
+    let studentsUpdateTimeout: ReturnType<typeof setTimeout> | null = null
     const unsubscribeStudents = subscribe<Student>('students', (studentsData) => {
       // Throttle updates to prevent flickering
       if (studentsUpdateTimeout) clearTimeout(studentsUpdateTimeout)
@@ -115,7 +115,7 @@ export function DashboardTotals() {
     })
 
     // Subscribe to pre-calculated outstanding students for real-time updates
-    let outstandingUpdateTimeout: NodeJS.Timeout | null = null
+    let outstandingUpdateTimeout: ReturnType<typeof setTimeout> | null = null
     const unsubscribeOutstanding = subscribe<any>('outstandingStudents', (outstandingData) => {
       if (outstandingUpdateTimeout) clearTimeout(outstandingUpdateTimeout)
       
@@ -129,7 +129,7 @@ export function DashboardTotals() {
       }, 1000)
     })
     
-    let expensesUpdateTimeout: NodeJS.Timeout | null = null
+    let expensesUpdateTimeout: ReturnType<typeof setTimeout> | null = null
     const unsubscribeExpenses = subscribe('expenses', (expensesData) => {
       // Throttle expenses updates
       if (expensesUpdateTimeout) clearTimeout(expensesUpdateTimeout)
@@ -144,7 +144,7 @@ export function DashboardTotals() {
       }, 1000) // 1 second throttle
     })
     
-    let extraBillingUpdateTimeout: NodeJS.Timeout | null = null
+    let extraBillingUpdateTimeout: ReturnType<typeof setTimeout> | null = null
     const unsubscribeExtraBilling = subscribe('extraBilling', (extraBillingData) => {
       // Throttle extra billing updates
       if (extraBillingUpdateTimeout) clearTimeout(extraBillingUpdateTimeout)
@@ -156,7 +156,7 @@ export function DashboardTotals() {
       }, 1000) // 1 second throttle
     })
     
-    let settingsUpdateTimeout: NodeJS.Timeout | null = null
+    let settingsUpdateTimeout: ReturnType<typeof setTimeout> | null = null
     const unsubscribeSettings = subscribe<AppSettings>('settings', (settingsData) => {
       // Throttle settings updates
       if (settingsUpdateTimeout) clearTimeout(settingsUpdateTimeout)
