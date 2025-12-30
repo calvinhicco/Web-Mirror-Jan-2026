@@ -3,12 +3,13 @@ import { getFirestore, collection, onSnapshot, doc, getDocs, query, orderBy, ena
 
 // Firebase configuration - matches the Electron app's Firebase project
 const firebaseConfig = {
-  apiKey: "AIzaSyBBXWOD7XiXbM7NLUVprZTMD-Mrd5CVWMI",
-  authDomain: "my-students-track-staff-online.firebaseapp.com",
-  projectId: "my-students-track-staff-online",
-  storageBucket: "my-students-track-staff-online.firebasestorage.app",
-  messagingSenderId: "324328206893",
-  appId: "1:324328206893:web:695d726cd2d680bfaa7ea4"
+  apiKey: "AIzaSyBd20WWDh_uXn94JNUBbjenXJWmuVLf23U",
+  authDomain: "jan-2026-webmirror-a1.firebaseapp.com",
+  projectId: "jan-2026-webmirror-a1",
+  storageBucket: "jan-2026-webmirror-a1.firebasestorage.app",
+  messagingSenderId: "1065081043628",
+  appId: "1:1065081043628:web:c688bc05d45bc78275fd09",
+  measurementId: "G-PET9XDG19X"
 }
 
 // Initialize Firebase
