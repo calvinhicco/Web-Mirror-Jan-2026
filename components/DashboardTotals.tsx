@@ -72,7 +72,7 @@ export function DashboardTotals() {
         const totalExtraBilling = extraBillingData?.reduce((sum: number, billing: any) => sum + (parseFloat(billing.amount) || 0), 0) || 0
         
         // Use pre-calculated outstanding data from Electron app (same as outstanding page)
-        let totalOutstanding = 0
+        let totalOutstanding: number = 0
         const outstandingStudentsData = await getInitial<any>('outstandingStudents')
         if (outstandingStudentsData) {
           totalOutstanding = outstandingStudentsData.reduce((sum: number, student: any) => {
@@ -140,7 +140,7 @@ export function DashboardTotals() {
           if (expense.isReversed || expense.reversed) return sum
           return sum + (parseFloat(expense.amount) || 0)
         }, 0) || 0
-        setTotalExpenses(totalExpenses)
+        setTotalExpenses(Number(totalExpenses) || 0)
       }, 1000) // 1 second throttle
     })
     
