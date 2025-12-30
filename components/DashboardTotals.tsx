@@ -125,7 +125,7 @@ export function DashboardTotals() {
           return sum + (student.outstandingAmount || 0)
         }, 0) || 0
         console.log(`💰 Outstanding updated: $${totalOutstanding} (pre-calculated)`)
-        setTotalOutstanding(totalOutstanding)
+        setTotalOutstanding(Number(totalOutstanding) || 0)
       }, 1000)
     })
     
@@ -152,7 +152,7 @@ export function DashboardTotals() {
       extraBillingUpdateTimeout = setTimeout(() => {
         console.log('🔄 Extra billing updated:', extraBillingData?.length || 0)
         const totalExtraBilling = extraBillingData?.reduce((sum: number, billing: any) => sum + (parseFloat(billing.amount) || 0), 0) || 0
-        setTotalExtraBilling(totalExtraBilling)
+        setTotalExtraBilling(Number(totalExtraBilling) || 0)
       }, 1000) // 1 second throttle
     })
     
