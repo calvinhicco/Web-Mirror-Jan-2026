@@ -23,7 +23,7 @@ export default function Nav() {
           {items.map((item) => (
             <Link 
               key={item.href} 
-              href={item.href} 
+              href={item.href as string} 
               className="flex items-center gap-2 text-sm transition-colors hover:text-primary py-2 px-3 rounded-md text-muted-foreground hover:bg-accent/50"
             >
               <span className="text-lg">{item.icon}</span>
@@ -51,7 +51,7 @@ export default function Nav() {
                 {items.map((item) => (
                   <Link 
                     key={item.href} 
-                    href={item.href}
+                    href={item.href as string}
                     onClick={() => setIsOpen(false)}
                     className="flex items-center gap-3 text-sm py-3 px-4 transition-colors text-muted-foreground hover:bg-accent/50"
                   >
