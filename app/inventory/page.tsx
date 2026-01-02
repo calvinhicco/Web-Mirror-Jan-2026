@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useEffect } from 'react'
 import { getInitial, subscribe } from '@/lib/realtime'
 import { Package } from 'lucide-react'
