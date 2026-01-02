@@ -1,3 +1,7 @@
+import { useState, useEffect } from 'react'
+import { getInitial, subscribe } from '@/lib/realtime'
+import { Package } from 'lucide-react'
+
 interface InventoryItem {
   itemName: string
   opening: number
@@ -13,10 +17,6 @@ interface Inventory {
   items: InventoryItem[]
   lastUpdated?: string
 }
-
-import { useState, useEffect } from 'react';
-import { getInitial, subscribe } from '@/lib/realtime'
-import { Package } from 'lucide-react'
 
 export default function InventoryPage() {
   const [inventories, setInventories] = useState<Inventory[]>([])
