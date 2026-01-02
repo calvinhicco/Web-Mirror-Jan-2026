@@ -32,6 +32,31 @@ interface Inventory {
   lastUpdated?: any
 }
 
+interface LegacyInventoryItem {
+  id?: string
+  itemName: string
+  opening: number
+  added: number
+  sold: number
+  closing: number
+  inventoryName?: string
+  year?: number
+  lastUpdated?: any
+}
+
+interface LegacyInventorySummary {
+  id?: string
+  opening: number
+  added: number
+  sold: number
+  closing: number
+  inventoryName?: string
+  year?: number
+  date?: string
+  reportMode?: string
+  lastUpdated?: any
+}
+
 type SaleStatus = 'completed' | 'reversed'
 
 interface SaleRecord {
@@ -62,6 +87,8 @@ function toDateString(value: any): string {
 export default function InventoryPage() {
   const [inventories, setInventories] = useState<Inventory[]>([])
   const [sales, setSales] = useState<SaleRecord[]>([])
+  const [legacyItems, setLegacyItems] = useState<LegacyInventoryItem[]>([])
+  const [legacySummary, setLegacySummary] = useState<LegacyInventorySummary[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -72,6 +99,14 @@ export default function InventoryPage() {
         setInventories(initial)
         const initialSales = await getInitial<SaleRecord>('sales')
         setSales(initialSales)
+
+        if (initial.length === 0) {
+          const legacy = await getInitial<LegacyInventoryItem>('inventoryItems')
+          setLegacyItems(legacy)
+          const legacySum = await getInitial<LegacyInventorySummary>('inventorySummary')
+          setLegacySummary(legacySum)
+        }
+
         setLoading(false)
       } catch (err) {
         console.error('Error loading inventories:', err)
@@ -83,9 +118,13 @@ export default function InventoryPage() {
     loadData()
     const unsub = subscribe<Inventory>('inventories', (docs) => setInventories(docs))
     const unsubSales = subscribe<SaleRecord>('sales', (docs) => setSales(docs))
+    const unsubLegacyItems = subscribe<LegacyInventoryItem>('inventoryItems', (docs) => setLegacyItems(docs))
+    const unsubLegacySummary = subscribe<LegacyInventorySummary>('inventorySummary', (docs) => setLegacySummary(docs))
     return () => {
       unsub()
       unsubSales()
+      unsubLegacyItems()
+      unsubLegacySummary()
     }
   }, [])
 
@@ -97,19 +136,91 @@ export default function InventoryPage() {
     return <div className="p-6 text-red-600">{error}</div>
   }
 
+  const hasNewData = inventories.length > 0
+  const hasLegacyData = legacyItems.length > 0 || legacySummary.length > 0
+
   return (
     <div className="p-6 space-y-8">
       <h1 className="text-2xl font-semibold flex items-center gap-2">
         <Package className="w-5 h-5" /> Inventory
       </h1>
 
-      {inventories.length === 0 && (
+      {!hasNewData && !hasLegacyData && (
         <div className="text-muted-foreground">
           No inventory data.
         </div>
       )}
 
-      {inventories.map((inv) => (
+      {!hasNewData && hasLegacyData && (
+        <div className="border rounded-lg overflow-hidden shadow-sm">
+          <div className="bg-muted px-4 py-2 flex justify-between items-center">
+            <span className="font-medium">Inventory</span>
+            {toDateString(legacySummary?.[0]?.lastUpdated) && (
+              <span className="text-xs text-muted-foreground">
+                Updated {new Date(toDateString(legacySummary?.[0]?.lastUpdated)).toLocaleDateString()}
+              </span>
+            )}
+          </div>
+
+          <div className="p-4">
+            {legacySummary.length > 0 && (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div>
+                  <div className="text-xs text-muted-foreground">Current Opening</div>
+                  <div className="text-lg font-semibold">{legacySummary[0].opening}</div>
+                </div>
+                <div>
+                  <div className="text-xs text-muted-foreground">Total Added</div>
+                  <div className="text-lg font-semibold">{legacySummary[0].added}</div>
+                </div>
+                <div>
+                  <div className="text-xs text-muted-foreground">Total Sold</div>
+                  <div className="text-lg font-semibold">{legacySummary[0].sold}</div>
+                </div>
+                <div>
+                  <div className="text-xs text-muted-foreground">Current Closing</div>
+                  <div className="text-lg font-semibold">{legacySummary[0].closing}</div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="overflow-x-auto border-t">
+            <table className="min-w-full text-sm">
+              <thead>
+                <tr className="bg-muted text-left">
+                  <th className="px-4 py-2">Item</th>
+                  <th className="px-4 py-2">Opening</th>
+                  <th className="px-4 py-2">Added</th>
+                  <th className="px-4 py-2">Sold</th>
+                  <th className="px-4 py-2">Closing</th>
+                </tr>
+              </thead>
+              <tbody>
+                {legacyItems.map((item) => (
+                  <tr key={item.id || item.itemName} className="border-t">
+                    <td className="px-4 py-1 whitespace-nowrap">{item.itemName}</td>
+                    <td className="px-4 py-1 text-right">{item.opening}</td>
+                    <td className="px-4 py-1 text-right">{item.added}</td>
+                    <td className="px-4 py-1 text-right">{item.sold}</td>
+                    <td className="px-4 py-1 text-right font-medium">{item.closing}</td>
+                  </tr>
+                ))}
+
+                {legacyItems.length === 0 && (
+                  <tr className="border-t">
+                    <td className="px-4 py-2 text-muted-foreground" colSpan={5}>
+                      No stock items yet.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {hasNewData && inventories.map((inv) => (
         <div key={inv.id || inv.inventoryName} className="border rounded-lg overflow-hidden shadow-sm">
           <div className="bg-muted px-4 py-2 flex justify-between items-center">
             <span className="font-medium">{inv.inventoryName} (Year {inv.year})</span>
@@ -117,6 +228,7 @@ export default function InventoryPage() {
               <span className="text-xs text-muted-foreground">Updated {new Date(toDateString(inv.lastUpdated)).toLocaleDateString()}</span>
             )}
           </div>
+
           <div className="overflow-x-auto">
             <table className="min-w-full text-sm">
               <thead>
