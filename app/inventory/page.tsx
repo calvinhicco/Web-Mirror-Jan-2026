@@ -186,26 +186,40 @@ export default function InventoryPage() {
           </div>
 
           <div className="overflow-x-auto border-t">
-            <table className="min-w-full text-sm">
+            <table className="min-w-full text-sm table-fixed w-full">
               <thead>
-                <tr className="bg-muted text-left">
-                  <th className="px-4 py-2">Item</th>
-                  <th className="px-4 py-2">Opening</th>
-                  <th className="px-4 py-2">Added</th>
-                  <th className="px-4 py-2">Sold</th>
-                  <th className="px-4 py-2">Closing</th>
+                <tr className="bg-muted">
+                  <th className="px-4 py-2 text-left">Item</th>
+                  <th className="px-4 py-2 text-right">Opening</th>
+                  <th className="px-4 py-2 text-right">Added</th>
+                  <th className="px-4 py-2 text-right">Sold</th>
+                  <th className="px-4 py-2 text-right">Closing</th>
                 </tr>
               </thead>
               <tbody>
-                {legacyItems.map((item) => (
-                  <tr key={item.id || item.itemName} className="border-t">
-                    <td className="px-4 py-1 whitespace-nowrap">{item.itemName}</td>
-                    <td className="px-4 py-1 text-right">{item.opening}</td>
-                    <td className="px-4 py-1 text-right">{item.added}</td>
-                    <td className="px-4 py-1 text-right">{item.sold}</td>
-                    <td className="px-4 py-1 text-right font-medium">{item.closing}</td>
-                  </tr>
-                ))}
+                {legacyItems.map((item) => {
+                  const label =
+                    (item as any).itemName ??
+                    item.id ??
+                    (item as any).name ??
+                    (item as any).item ??
+                    '—'
+
+                  const opening = Number((item as any).opening ?? (item as any).currentOpening ?? 0)
+                  const added = Number((item as any).added ?? (item as any).totalAdded ?? 0)
+                  const sold = Number((item as any).sold ?? (item as any).totalSold ?? 0)
+                  const closing = Number((item as any).closing ?? (item as any).currentClosing ?? 0)
+
+                  return (
+                    <tr key={item.id || String(label)} className="border-t">
+                      <td className="px-4 py-1 whitespace-nowrap">{label}</td>
+                      <td className="px-4 py-1 text-right">{opening}</td>
+                      <td className="px-4 py-1 text-right">{added}</td>
+                      <td className="px-4 py-1 text-right">{sold}</td>
+                      <td className="px-4 py-1 text-right font-medium">{closing}</td>
+                    </tr>
+                  )
+                })}
 
                 {legacyItems.length === 0 && (
                   <tr className="border-t">
